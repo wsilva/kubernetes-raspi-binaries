@@ -36,7 +36,7 @@ jobs:
     - name: Install crosscompiler
       run: |
         sudo apt-get update || true
-        sudo apt-get install gcc-arm-linux-gnueabi g++-arm-linux-gnueabi
+        sudo apt-get install -y gcc-arm-linux-gnueabi g++-arm-linux-gnueabi libc6
         
     - name: Build Kubernetes ARMv6
       run: |
@@ -46,7 +46,6 @@ jobs:
         export KUBE_BUILD_PLATFORMS=linux/arm
         make all WHAT=cmd/kube-proxy
         make all WHAT=cmd/kubelet
-        make all WHAT=cmd/kubeadm
         make all WHAT=cmd/kubectl
         export KUBE_VERSION=$(git log -1 --pretty='%h')
         echo "KUBE_VERSION=$KUBE_VERSION" >> $GITHUB_ENV
