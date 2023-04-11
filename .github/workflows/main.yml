@@ -49,6 +49,9 @@ jobs:
         make all WHAT=cmd/kubectl
         export KUBE_VERSION=$(git log -1 --pretty='%h')
         echo "KUBE_VERSION=$KUBE_VERSION" >> $GITHUB_ENV
+        echo "-------------"
+        ldd _output/local/bin/linux/arm/kubelet
+        echo "-------------"
         tar cvzf kubernetes-node-linux-arm.tar.gz _output/local/bin/linux/arm/
       working-directory: src/k8s.io/kubernetes
         
@@ -58,8 +61,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.KUBE_VERSION }}
-        release_name: Release ${{ env.KUBE_VERSION }}
+        tag_name: ${{ github.event.inputs.k8sversion }}
+        release_name: Release ${{ github.event.inputs.k8sversion }}
         draft: false
         prerelease: false
 
